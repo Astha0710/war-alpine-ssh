@@ -32,10 +32,10 @@ jobs:
           password: ${{ secrets.DEPTEST_REGISTRY_PASSWORD }}
 
       - name: Build and push container image to registry
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v2
         with:
           push: true
-          tags: registry.hub.docker.com/deptest:${{ github.sha }}
+          tags: hub.docker.com/deptest:${{ github.sha }}
           file: ./Dockerfile
           context: ./
 
@@ -57,4 +57,4 @@ jobs:
           inlineScript: |
             az config set extension.use_dynamic_install=yes_without_prompt
             az containerapp registry set -n deptest -g rg --server registry.hub.docker.com --username  ${{ secrets.DEPTEST_REGISTRY_USERNAME }} --password ${{ secrets.DEPTEST_REGISTRY_PASSWORD }}
-            az containerapp update -n deptest -g rg --image registry.hub.docker.com/deptest:${{ github.sha }}
+            az containerapp update -n deptest -g rg --image hub.docker.com/deptest:${{ github.sha }}
